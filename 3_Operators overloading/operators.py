@@ -1,0 +1,24 @@
+#sum
+base_liquid = ["water","milk"]
+extra_flavor = ["Ginger"]
+
+full_liquid_mix = base_liquid + extra_flavor
+print(f"liquid_max{full_liquid_mix}")
+
+#Multiply
+base_liquid = ["water","milk"]*3
+print(f"{base_liquid}")
+
+#substract
+total_marks = (100)
+obtain_marks = (80)
+remaning_marks = total_marks - obtain_marks
+print(f"Remaning Marks{remaning_marks}")
+
+#divide 
+total_marks = (100)
+obtain_marks = (80)
+divide = total_marks / obtain_marks
+print(f"divide {divide}")
+
+#same as for multiply
