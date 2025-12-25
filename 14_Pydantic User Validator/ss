@@ -1,0 +1,143 @@
+from pydantic import BaseModel
+class User(BaseModel):
+    name : str
+    age : int
+user = User(name ="hxrry",age = "21")
+print(user)
+
+
+from pydantic import BaseModel
+class User(BaseModel):
+    id : int
+    name : str
+    is_active: bool
+input_data = {'id':'101','name':"hxrry",'is_active':True}
+user = User(**input_data)
+print(user)
+
+from pydantic import BaseModel
+class Product(BaseModel):
+    id : int
+    Name :str
+    price : float
+    in_stock : bool = True
+
+product_1 = Product(id= 101,Name = "Laptop",price = 20.00,in_stock=True)
+product_2 = Product(id= 102,Name = "Mouse",price = 15.50,in_stock=True)
+product_3 = Product(id= 103,Name = "Keyboard",price = 8.90,in_stock=True)
+product_4 = Product(id= 104,Name = "Speakers",price = 10.00,in_stock=False)
+product_5 = Product(id= 105,Name = "Headphones",price = 6.30,in_stock=False)
+print(product_1)
+print(product_2)
+print(product_3)
+print(product_4)
+print(product_5)
+
+
+from pydantic import BaseModel
+from typing import List,Dict
+
+class Cart(BaseModel):
+    user_id:int
+    items : List[str]
+    quantities: Dict[str,int]
+
+class BlogPost(BaseModel):
+    title : str
+    content : str
+    
+cart_data = {
+    "user_id": 123,
+    "items":["Laptop","Mouse","Keyboard"],
+    "quantities":{"laptop":1,"Mouse":2,"keyboard":3}
+
+}
+cart = Cart(**cart_data)
+print(cart)
+
+from pydantic import BaseModel, field_validator, model_validator
+
+class User(BaseModel):
+    username: str
+
+    @field_validator('username')
+    def username_length(cls, v):
+        if len(v) < 4:
+            raise ValueError("username must be at least 4 characters")
+        return v
+
+class SignupBata(BaseModel):
+    password: str
+    confirm_password: str
+
+    @model_validator(mode='after')
+    def password_match(cls, values):
+        if values.password != values.confirm_password:
+            raise ValueError("Passwords do not match")
+        return values
+u = User(username= "Hxrry")
+s = SignupBata(password="1234", confirm_password="1234")
+
+print(u)
+print(s)
+
+
+from pydantic import BaseModel
+from typing import Optional,list,Union
+
+class Address(BaseModel):
+    street:str
+    city:str
+    postal_code:str
+
+class Company(BaseModel):
+    name : str
+    address:Optional[Address]= None
+
+class Employee(BaseModel):
+    name:str
+    address:Optional[Company]=None
+
+class TextContent(BaseModel):
+    type:str
+    url:str
+    alt_text:str
+
+class ImageContent(BaseModel):
+    type:str ="Image"
+    url :str
+    alt_text : str
+
+class Articale(BaseModel):
+    title :str
+    sections:list[Union[TextContent,ImageContent]]
+
+class Country(BaseModel):
+    name : str
+    code : str
+
+class State (BaseModel):
+    name :str
+    counrty:Country
+
+class City(BaseModel):
+    name:str
+    state:State
+
+class Address(BaseModel):
+    name :str
+    city:City
+    postal_code:str
+
+class Organization(BaseModel):
+    name: str
+    head_quarter:Address
+    brancher:list[Address]=[]
+    
+
+
+
+
+
+
+
